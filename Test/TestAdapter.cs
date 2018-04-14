@@ -7,43 +7,45 @@ using System.Threading.Tasks;
 
 namespace HugeStructures.Test
 {
-	public abstract class TestAdapter
+	public abstract class TestAdapter<T>
 	{
-		public abstract ITitanicArray<byte> CreateArray(ITitanicArrayConfig c = null);
+		public abstract ITitanicArray<T> CreateArray(ITitanicArrayConfig<T> c = null);
+		public abstract IDataSerializer<T> CreateSerializer();
+		public abstract IDataIterator<T> CreateIterator();
 
 		[TestMethod]
 		public void DefaultSerializer()
 		{
 			using(var arr = CreateArray()) {
-				Helpers.ReadWriteTest(arr);
+				Helpers.ReadWriteTest(arr,CreateIterator());
 			}
 		}
 
 		[TestMethod]
 		public void CustomSerializer()
 		{
-			var c = TitanicArrayConfig.Default;
-			c.DataSerializer = new CustomByteSerializer();
+			var c = TitanicArrayConfig<T>.Default;
+			c.DataSerializer = CreateSerializer();
 			c.BackingStoreFileName = Helpers.GetLocalTempFileName();
 
 			using(var arr = CreateArray(c)) {
-				Helpers.ReadWriteTest(arr);
+				Helpers.ReadWriteTest(arr,CreateIterator());
 			}
 		}
 
-		[TestMethod]
-		public void LotsOfData()
-		{
-			using(var arr = CreateArray(Helpers.LotsOfDataConfig)) {
-				Helpers.ReadWriteTest(arr);
-			}
-		}
+		//[TestMethod]
+		//public void LotsOfData()
+		//{
+		//	using(var arr = CreateArray(Helpers.LotsOfDataConfig(CreateSerializer()))) {
+		//		Helpers.ReadWriteTest(arr,CreateIterator());
+		//	}
+		//}
 
 		[TestMethod]
 		public void TimingTest()
 		{
-			using(var arr = CreateArray(Helpers.TimingConfig)) {
-				Helpers.TimingTest(arr);
+			using(var arr = CreateArray(Helpers.TimingConfig(CreateSerializer()))) {
+				Helpers.TimingTest(arr,CreateIterator());
 			}
 		}
 

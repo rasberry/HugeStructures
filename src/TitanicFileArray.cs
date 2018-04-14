@@ -10,11 +10,11 @@ namespace HugeStructures
 {
 	public class TitanicFileArray<T> : ITitanicArray<T>, IDisposable
 	{
-		public TitanicFileArray() : this(TitanicArrayConfig.Default)
+		public TitanicFileArray() : this(TitanicArrayConfig<T>.Default)
 		{
 		}
 
-		public TitanicFileArray(ITitanicArrayConfig config)
+		public TitanicFileArray(ITitanicArrayConfig<T> config)
 		{
 			this.config = config;
 			store = File.Open(config.BackingStoreFileName,FileMode.Create,FileAccess.ReadWrite,FileShare.Read);
@@ -28,7 +28,7 @@ namespace HugeStructures
 				buffer.Initialize();
 				store.Seek(index * itemSize,SeekOrigin.Begin);
 				store.Read(buffer,0,itemSize);
-				return config.DataSerializer.Deserialize<T>(buffer);
+				return config.DataSerializer.Deserialize(buffer);
 			}
 			set {
 				byte[] buff = config.DataSerializer.Serialize(value);
@@ -56,7 +56,7 @@ namespace HugeStructures
 
 				try {
 					if (File.Exists(config.BackingStoreFileName)) {
-						Debug.WriteLine("deleting "+config.BackingStoreFileName);
+						//Debug.WriteLine("deleting "+config.BackingStoreFileName);
 						File.Delete(config.BackingStoreFileName);
 					}
 				} catch (UnauthorizedAccessException e) {
@@ -74,7 +74,7 @@ namespace HugeStructures
 			}
 		}
 
-		static int GetSizeInBytes(IDataSerializer ser)
+		static int GetSizeInBytes(IDataSerializer<T> ser)
 		{
 			var data = ser.Serialize(default(T));
 			return data.Length;
@@ -83,6 +83,6 @@ namespace HugeStructures
 		FileStream store = null;
 		int itemSize = 0;
 		byte[] buffer = null;
-		ITitanicArrayConfig config = null;
+		ITitanicArrayConfig<T> config = null;
 	}
 }

@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 
 namespace HugeStructures
 {
-	public interface ITitanicArrayConfig
+	public interface ITitanicArrayConfig<T>
 	{
 		string BackingStoreFileName { get; }
 		long Capacity { get; }
-		IDataSerializer DataSerializer { get; }
+		IDataSerializer<T> DataSerializer { get; }
 	}
 
-	public class TitanicArrayConfig : ITitanicArrayConfig
+	public class TitanicArrayConfig<T> : ITitanicArrayConfig<T>
 	{
 		public string BackingStoreFileName { get; set; }
 		public long Capacity { get; set; }
-		public IDataSerializer DataSerializer { get; set; }
+		public IDataSerializer<T> DataSerializer { get; set; }
 
-		public static TitanicArrayConfig Default { get {
+		public static TitanicArrayConfig<T> Default { get {
 			string fn = Guid.NewGuid().ToString("n");
-			return new TitanicArrayConfig {
+			return new TitanicArrayConfig<T> {
 				BackingStoreFileName = Path.Combine(Path.GetTempPath(),fn),
 				Capacity = 16,
-				DataSerializer = new DefaultDataSerializer()
+				DataSerializer = new DefaultDataSerializer<T>()
 			};
 		} }
 	}

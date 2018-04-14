@@ -8,24 +8,24 @@ using System.Threading.Tasks;
 
 namespace HugeStructures
 {
-	public interface IDataSerializer
+	public interface IDataSerializer<T>
 	{
-		byte[] Serialize<T>(T item);
-		T Deserialize<T>(byte[] bytes);
+		byte[] Serialize(T item);
+		T Deserialize(byte[] bytes);
 	}
 
-	public class DefaultDataSerializer : IDataSerializer
+	public class DefaultDataSerializer<T> : IDataSerializer<T>
 	{
 		readonly BinaryFormatter _formatter = new BinaryFormatter();
 
-		public T Deserialize<T>(byte[] bytes)
+		public T Deserialize(byte[] bytes)
 		{
 			var mem = new MemoryStream(bytes);
 			object o = _formatter.Deserialize(mem);
 			return (T)o;
 		}
 
-		public byte[] Serialize<T>(T item)
+		public byte[] Serialize(T item)
 		{
 			MemoryStream mem = new MemoryStream();
 			_formatter.Serialize(mem, item);

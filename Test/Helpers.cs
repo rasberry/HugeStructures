@@ -11,70 +11,63 @@ namespace HugeStructures.Test
 {
 	public static class Helpers
 	{
-		public static void ReadWriteTest(ITitanicArray<byte> arr)
+		public static void ReadWriteTest<T>(ITitanicArray<T> arr, IDataIterator<T> iter)
 		{
 			long len = arr.Length;
+			iter.Reset();
 			for(long i=0; i<len; i++) {
-				arr[i] = (byte)(i % 255);
+				arr[i] = iter.GetNext();
 			}
+			iter.Reset();
 			for(long i=0; i<len; i++) {
-				Assert.IsTrue(arr[i] == (byte)(i % 255));
+				Assert.IsTrue(iter.AreEqual(arr[i],iter.GetNext()));
 			}
 		}
 
-		public static ITitanicArrayConfig LotsOfDataConfig { get {
-			var c = new TitanicArrayConfig {
-				DataSerializer = new CustomByteSerializer(),
+		public static ITitanicArrayConfig<T> LotsOfDataConfig<T>(IDataSerializer<T> ser)
+		{
+			var c = new TitanicArrayConfig<T> {
+				DataSerializer = ser,
 				Capacity = 1024 * 1024 * 1,
 				BackingStoreFileName = GetLocalTempFileName(),
 			};
 			return c;
-		}}
+		}
 
-		public static ITitanicArrayConfig TimingConfig { get {
-			var ds = new CustomByteSerializer();
-			var c = new TitanicArrayConfig {
-				DataSerializer = ds,
-				Capacity = 1024 * 1024 * 4,
+		public static ITitanicArrayConfig<T> TimingConfig<T>(IDataSerializer<T> ser)
+		{
+			var c = new TitanicArrayConfig<T> {
+				DataSerializer = ser,
+				Capacity = 1024 * 1024 * 1,
 				BackingStoreFileName = GetLocalTempFileName(),
 			};
 			return c;
-		}}
+		}
 
-		public static void TimingTest(ITitanicArray<byte> arr)
+		public static void TimingTest<T>(ITitanicArray<T> arr, IDataIterator<T> iter)
 		{
-			string name = arr.GetType().Name;
+			string name = arr.GetType().Name + "-" + iter.GetType().Name;
 
 			var s1 = Stopwatch.StartNew();
 			long len = arr.Length;
+			iter.Reset();
 			for(long i=0; i<len; i++) {
-				arr[i] = (byte)(i % 255);
+				arr[i] = iter.GetNext();
 			}
-			Debug.WriteLine(name+" w="+s1.ElapsedMilliseconds);
+			Debug.WriteLine(name+"\tw="+s1.ElapsedMilliseconds);
+			iter.Reset();
 			for(long i=0; i<len; i++) {
-				Assert.IsTrue(arr[i] == (byte)(i % 255));
+				Assert.IsTrue(iter.AreEqual(arr[i],iter.GetNext()));
 			}
-			Debug.WriteLine(name+" t="+s1.ElapsedMilliseconds);
+			Debug.WriteLine(name+"\tt="+s1.ElapsedMilliseconds);
 		}
 
 		static Random rnd = new Random();
 		public static string GetLocalTempFileName()
 		{
 			string name = Guid.NewGuid().ToString("n") + rnd.Next();
-			return Path.Combine(Environment.CurrentDirectory,name);
-		}
-	}
-
-	public class CustomByteSerializer : IDataSerializer
-	{
-		public T Deserialize<T>(byte[] bytes)
-		{
-			return (T)((object)bytes[0]);
-		}
-
-		public byte[] Serialize<T>(T item)
-		{
-			return new byte[] { (byte)((object)item) };
+			//return Path.Combine(Environment.CurrentDirectory,name);
+			return Path.Combine("c:\\temp",name);
 		}
 	}
 }

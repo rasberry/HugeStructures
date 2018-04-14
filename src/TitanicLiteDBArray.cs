@@ -11,11 +11,11 @@ namespace HugeStructures
 {
 	public class TitanicLiteDBArray<T> : ITitanicArray<T>
 	{
-		public TitanicLiteDBArray() : this(TitanicArrayConfig.Default)
+		public TitanicLiteDBArray() : this(TitanicArrayConfig<T>.Default)
 		{
 		}
 
-		public TitanicLiteDBArray(ITitanicArrayConfig config, int cacheSizePages = 5000)
+		public TitanicLiteDBArray(ITitanicArrayConfig<T> config, int cacheSizePages = 5000)
 		{
 			this.config = config;
 			TSize = GetSizeInBytes(config.DataSerializer);
@@ -32,7 +32,7 @@ namespace HugeStructures
 			get {
 				var item = collection.FindById(new BsonValue(index));
 				var val = item["v"].AsBinary;
-				return config.DataSerializer.Deserialize<T>(val);
+				return config.DataSerializer.Deserialize(val);
 			}
 			set {
 				var bytes = config.DataSerializer.Serialize(value);
@@ -46,7 +46,7 @@ namespace HugeStructures
 			return config.Capacity;
 		}}
 
-		static int GetSizeInBytes(IDataSerializer ser)
+		static int GetSizeInBytes(IDataSerializer<T> ser)
 		{
 			var data = ser.Serialize(default(T));
 			return data.Length;
@@ -65,7 +65,7 @@ namespace HugeStructures
 
 				try {
 					if (File.Exists(config.BackingStoreFileName)) {
-						Debug.WriteLine("deleting "+config.BackingStoreFileName);
+						//Debug.WriteLine("deleting "+config.BackingStoreFileName);
 						File.Delete(config.BackingStoreFileName);
 					}
 				} catch (UnauthorizedAccessException e) {
@@ -76,7 +76,7 @@ namespace HugeStructures
 
 		LiteDatabase db;
 		int TSize;
-		ITitanicArrayConfig config;
+		ITitanicArrayConfig<T> config;
 		LiteCollection<BsonDocument> collection;
 	}
 }

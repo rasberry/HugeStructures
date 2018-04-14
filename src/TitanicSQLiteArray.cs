@@ -11,11 +11,11 @@ namespace HugeStructures
 {
 	public class TitanicSQLiteArray<T> : ITitanicArray<T>
 	{
-		public TitanicSQLiteArray() : this(TitanicArrayConfig.Default)
+		public TitanicSQLiteArray() : this(TitanicArrayConfig<T>.Default)
 		{
 		}
 
-		public TitanicSQLiteArray(ITitanicArrayConfig config, int cacheSizeKB = 2000)
+		public TitanicSQLiteArray(ITitanicArrayConfig<T> config, int cacheSizeKB = 2000)
 		{
 			this.config = config;
 			TSize = GetSizeInBytes(config.DataSerializer);
@@ -67,7 +67,7 @@ namespace HugeStructures
 				{
 					while(reader.Read()) {
 						byte[] buffer = GetBytes(reader);
-						T data = config.DataSerializer.Deserialize<T>(buffer);
+						T data = config.DataSerializer.Deserialize(buffer);
 						return data;
 					}
 				}
@@ -106,7 +106,7 @@ namespace HugeStructures
 			}
 		}
 
-		static int GetSizeInBytes(IDataSerializer ser)
+		static int GetSizeInBytes(IDataSerializer<T> ser)
 		{
 			var data = ser.Serialize(default(T));
 			return data.Length;
@@ -128,17 +128,17 @@ namespace HugeStructures
 				GC.WaitForPendingFinalizers();
 			}
 
-			//try {
-			//	if (File.Exists(config.BackingStoreFileName)) {
-			//		Debug.WriteLine("deleting "+config.BackingStoreFileName);
-			//		File.Delete(config.BackingStoreFileName);
-			//	}
-			//} catch (UnauthorizedAccessException e) {
-			//	Trace.WriteLine(e.ToString());
-			//}
+			try {
+				if (File.Exists(config.BackingStoreFileName)) {
+					//Debug.WriteLine("deleting "+config.BackingStoreFileName);
+					File.Delete(config.BackingStoreFileName);
+				}
+			} catch (UnauthorizedAccessException e) {
+				Trace.WriteLine(e.ToString());
+			}
 		}
 
-		ITitanicArrayConfig config;
+		ITitanicArrayConfig<T> config;
 		SQLiteConnection sqConnection;
 		int TSize;
 	}

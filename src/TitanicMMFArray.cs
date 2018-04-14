@@ -12,11 +12,11 @@ namespace HugeStructures
 {
 	public class TitanicMMFArray<T> : ITitanicArray<T>, IDisposable
 	{
-		public TitanicMMFArray() : this(TitanicArrayConfig.Default)
+		public TitanicMMFArray() : this(TitanicArrayConfig<T>.Default)
 		{
 		}
 
-		public TitanicMMFArray(ITitanicArrayConfig config)
+		public TitanicMMFArray(ITitanicArrayConfig<T> config)
 		{
 			this.config = config;
 			TSize = GetSizeInBytes(config.DataSerializer);
@@ -49,7 +49,7 @@ namespace HugeStructures
 
 				byte[] buff = new byte[TSize];
 				mmva.ReadArray(index * TSize, buff, 0, TSize);
-				T val = config.DataSerializer.Deserialize<T>(buff);
+				T val = config.DataSerializer.Deserialize(buff);
 				return val;
 			}
 			set {
@@ -61,7 +61,7 @@ namespace HugeStructures
 			}
 		}
 
-		static int GetSizeInBytes(IDataSerializer ser)
+		static int GetSizeInBytes(IDataSerializer<T> ser)
 		{
 			var data = ser.Serialize(default(T));
 			return data.Length;
@@ -83,7 +83,7 @@ namespace HugeStructures
 
 			try {
 				if (File.Exists(config.BackingStoreFileName)) {
-					Debug.WriteLine("deleting "+config.BackingStoreFileName);
+					//Debug.WriteLine("deleting "+config.BackingStoreFileName);
 					File.Delete(config.BackingStoreFileName);
 				}
 			} catch (UnauthorizedAccessException e) {
@@ -94,6 +94,6 @@ namespace HugeStructures
 		MemoryMappedViewAccessor mmva = null;
 		MemoryMappedFile mmf = null;
 		int TSize = -1;
-		ITitanicArrayConfig config = null;
+		ITitanicArrayConfig<T> config = null;
 	}
 }
