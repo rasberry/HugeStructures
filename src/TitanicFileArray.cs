@@ -14,26 +14,35 @@ namespace HugeStructures
 		{
 		}
 
-		public TitanicFileArray(ITitanicArrayConfig<T> config)
+		public TitanicFileArray(ITitanicArrayConfig<T> config, int cacheSize = 2000)
 		{
 			this.config = config;
 			store = File.Open(config.BackingStoreFileName,FileMode.Create,FileAccess.ReadWrite,FileShare.Read);
 			itemSize = GetSizeInBytes(config.DataSerializer);
 			buffer = new byte[itemSize];
 			InitializeFile();
+			cache = new LRUCache<long,T>(cacheSize);
 		}
 	
 		public T this[long index] {
 			get {
+				if (cache.TryGet(index,out T val)) {
+					return val;
+				}
+
 				buffer.Initialize();
 				store.Seek(index * itemSize,SeekOrigin.Begin);
 				store.Read(buffer,0,itemSize);
 				return config.DataSerializer.Deserialize(buffer);
 			}
 			set {
-				byte[] buff = config.DataSerializer.Serialize(value);
-				store.Seek(index * itemSize,SeekOrigin.Begin);
-				store.Write(buff,0,itemSize);
+				KeyValuePair<long,T> evicted;
+				if (cache.AddOrUpdate(index,value,out evicted))
+				{
+					byte[] buff = config.DataSerializer.Serialize(evicted.Value);
+					store.Seek(evicted.Key * itemSize,SeekOrigin.Begin);
+					store.Write(buff,0,itemSize);
+				}
 			}
 		}
 
@@ -80,9 +89,10 @@ namespace HugeStructures
 			return data.Length;
 		}
 
-		FileStream store = null;
-		int itemSize = 0;
-		byte[] buffer = null;
-		ITitanicArrayConfig<T> config = null;
+		FileStream store;
+		int itemSize;
+		byte[] buffer;
+		ITitanicArrayConfig<T> config;
+		LRUCache<long,T> cache;
 	}
 }

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITitanicArray.cs" />
+    <Compile Include="LRUCache.cs" />
     <Compile Include="TitanicLiteDBArray.cs" />
     <Compile Include="TitanicSQLiteArray.cs" />
     <Compile Include="Serialization.cs" />
