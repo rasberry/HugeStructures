@@ -33,19 +33,31 @@ namespace HugeStructures.Test
 			}
 		}
 
-		//[TestMethod]
-		//public void LotsOfData()
-		//{
-		//	using(var arr = CreateArray(Helpers.LotsOfDataConfig(CreateSerializer()))) {
-		//		Helpers.ReadWriteTest(arr,CreateIterator());
-		//	}
-		//}
+		[TestMethod]
+		public void CustomSerializerRandom()
+		{
+			var c = TitanicArrayConfig<T>.Default;
+			c.DataSerializer = CreateSerializer();
+			c.BackingStoreFileName = Helpers.GetLocalTempFileName();
+
+			using(var arr = CreateArray(c)) {
+				Helpers.ReadWriteRandom(arr,CreateIterator());
+			}
+		}
 
 		[TestMethod]
 		public void TimingTest()
 		{
 			using(var arr = CreateArray(Helpers.TimingConfig(CreateSerializer()))) {
 				Helpers.TimingTest(arr,CreateIterator());
+			}
+		}
+
+		[TestMethod]
+		public void TimingRandom()
+		{
+			using(var arr = CreateArray(Helpers.TimingConfig(CreateSerializer()))) {
+				Helpers.TimingRandom(arr,CreateIterator());
 			}
 		}
 

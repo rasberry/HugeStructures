@@ -54,7 +54,9 @@
     <Compile Include="HelperDataIterators.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="HelperSerializers.cs" />
+    <Compile Include="LinearFeedbackShiftRegister.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="UniqueRandom.cs" />
     <Compile Include="TestAdapter.cs" />
     <Compile Include="TitanicArrayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

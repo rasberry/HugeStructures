@@ -37,8 +37,6 @@ namespace HugeStructures.Test
 		public bool AreEqual(byte a, byte b) {
 			return a == b;
 		}
-
-		long _curr = 0;
 		Random rnd = new Random(0);
 	}
 
@@ -67,8 +65,6 @@ namespace HugeStructures.Test
 		public bool AreEqual(double a, double b) {
 			return a == b;
 		}
-
-		long _curr = 0;
 		Random rnd = new Random(0);
 	}
 }
