@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HugeStructures
+namespace HugeStructures.TitanicArray
 {
 	public interface ITitanicArrayConfig<T>
 	{
 		string BackingStoreFileName { get; }
 		long Capacity { get; }
 		IDataSerializer<T> DataSerializer { get; }
+		bool KeepFile { get; set; }
 	}
 
 	public class TitanicArrayConfig<T> : ITitanicArrayConfig<T>
@@ -19,13 +20,15 @@ namespace HugeStructures
 		public string BackingStoreFileName { get; set; }
 		public long Capacity { get; set; }
 		public IDataSerializer<T> DataSerializer { get; set; }
+		public bool KeepFile { get; set; }
 
 		public static TitanicArrayConfig<T> Default { get {
 			string fn = Guid.NewGuid().ToString("n");
 			return new TitanicArrayConfig<T> {
 				BackingStoreFileName = Path.Combine(Path.GetTempPath(),fn),
 				Capacity = 16,
-				DataSerializer = new DefaultDataSerializer<T>()
+				DataSerializer = new DefaultDataSerializer<T>(),
+				KeepFile = false
 			};
 		} }
 	}

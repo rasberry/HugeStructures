@@ -6,10 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HugeStructures.TitanicArray;
 
 namespace HugeStructures.Test
 {
-	public static class Helpers
+	public static class TitanicArrayHelpers
 	{
 		public static void ReadWriteTest<T>(ITitanicArray<T> arr, IDataIterator<T> iter)
 		{
