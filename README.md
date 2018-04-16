@@ -21,12 +21,18 @@ This array is backed by a [SQLite](https://sqlite.org/) database.
 ## TitanicLiteDBArray
 This array is backed by a [LiteDB](http://www.litedb.org/) database.
 
+##TitanicRaptorDBArray
+This array is backed by a [RaptorDb](https://www.codeproject.com/Articles/316816/RaptorDB-The-Key-Value-Store-V2) database.
+
 ## Performance
 Testing on my machine using 2^20 doubles (4MiB of data) results in these times:
 
 * TitanicMMFArray
   * Random Sequence: 3s
   * Linear Sequence: 2s
+* TitanicRaptorDBArray
+  * Random Sequence: 13s
+  * Linear Sequence: 12s
 * TitanicFileArray
   * Random Sequence: 25s
   * Linear Sequence: 12s
