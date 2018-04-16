@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HugeStructures
+namespace HugeStructures.TitanicArray
 {
 	public class TitanicLiteDBArray<T> : ITitanicArray<T>
 	{
@@ -55,7 +55,6 @@ namespace HugeStructures
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		protected virtual void Dispose(bool disposing)
@@ -63,14 +62,21 @@ namespace HugeStructures
 			if (disposing) {
 				db.Dispose();
 
-				try {
-					if (File.Exists(config.BackingStoreFileName)) {
-						//Debug.WriteLine("deleting "+config.BackingStoreFileName);
-						File.Delete(config.BackingStoreFileName);
-					}
-				} catch (UnauthorizedAccessException e) {
-					Trace.WriteLine(e.ToString());
+				if (!config.KeepFile) {
+					RemoveFile(config.BackingStoreFileName);
 				}
+			}
+		}
+
+		static void RemoveFile(string name)
+		{
+			try {
+				if (File.Exists(name)) {
+					//Debug.WriteLine("deleting "+config.BackingStoreFileName);
+					File.Delete(name);
+				}
+			} catch (UnauthorizedAccessException e) {
+				Trace.WriteLine(e.ToString());
 			}
 		}
 

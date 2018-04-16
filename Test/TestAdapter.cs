@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HugeStructures.TitanicArray;
 
 namespace HugeStructures.Test
 {
@@ -17,7 +18,7 @@ namespace HugeStructures.Test
 		public void DefaultSerializer()
 		{
 			using(var arr = CreateArray()) {
-				Helpers.ReadWriteTest(arr,CreateIterator());
+				TitanicArrayHelpers.ReadWriteTest(arr,CreateIterator());
 			}
 		}
 
@@ -26,10 +27,10 @@ namespace HugeStructures.Test
 		{
 			var c = TitanicArrayConfig<T>.Default;
 			c.DataSerializer = CreateSerializer();
-			c.BackingStoreFileName = Helpers.GetLocalTempFileName();
+			c.BackingStoreFileName = TitanicArrayHelpers.GetLocalTempFileName();
 
 			using(var arr = CreateArray(c)) {
-				Helpers.ReadWriteTest(arr,CreateIterator());
+				TitanicArrayHelpers.ReadWriteTest(arr,CreateIterator());
 			}
 		}
 
@@ -38,26 +39,26 @@ namespace HugeStructures.Test
 		{
 			var c = TitanicArrayConfig<T>.Default;
 			c.DataSerializer = CreateSerializer();
-			c.BackingStoreFileName = Helpers.GetLocalTempFileName();
+			c.BackingStoreFileName = TitanicArrayHelpers.GetLocalTempFileName();
 
 			using(var arr = CreateArray(c)) {
-				Helpers.ReadWriteRandom(arr,CreateIterator());
+				TitanicArrayHelpers.ReadWriteRandom(arr,CreateIterator());
 			}
 		}
 
 		[TestMethod]
 		public void TimingTest()
 		{
-			using(var arr = CreateArray(Helpers.TimingConfig(CreateSerializer()))) {
-				Helpers.TimingTest(arr,CreateIterator());
+			using(var arr = CreateArray(TitanicArrayHelpers.TimingConfig(CreateSerializer()))) {
+				TitanicArrayHelpers.TimingTest(arr,CreateIterator());
 			}
 		}
 
 		[TestMethod]
 		public void TimingRandom()
 		{
-			using(var arr = CreateArray(Helpers.TimingConfig(CreateSerializer()))) {
-				Helpers.TimingRandom(arr,CreateIterator());
+			using(var arr = CreateArray(TitanicArrayHelpers.TimingConfig(CreateSerializer()))) {
+				TitanicArrayHelpers.TimingRandom(arr,CreateIterator());
 			}
 		}
 

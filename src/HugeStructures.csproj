@@ -48,15 +48,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITitanicArray.cs" />
+    <Compile Include="TitanicArray\ITitanicArray.cs" />
     <Compile Include="LRUCache.cs" />
-    <Compile Include="TitanicLiteDBArray.cs" />
-    <Compile Include="TitanicSQLiteArray.cs" />
+    <Compile Include="TitanicArray\TitanicLiteDBArray.cs" />
+    <Compile Include="TitanicArray\TitanicSQLiteArray.cs" />
     <Compile Include="Serialization.cs" />
-    <Compile Include="TitanicFileArray.cs" />
-    <Compile Include="TitanicMMFArray.cs" />
+    <Compile Include="TitanicArray\TitanicFileArray.cs" />
+    <Compile Include="TitanicArray\TitanicMMFArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TitanicArrayConfig.cs" />
+    <Compile Include="TitanicArray\TitanicArrayConfig.cs" />
+    <Compile Include="TitanicMap\ITitanicMap.cs" />
+    <Compile Include="TitanicMap\TitanicFileMap.cs" />
+    <Compile Include="TitanicMap\TitanicMapConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
