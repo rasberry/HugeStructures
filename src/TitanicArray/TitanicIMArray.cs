@@ -241,7 +241,6 @@ namespace HugeStructures.TitanicArray
 	#if UseBitErrorWorkAround
 	//BitConverter.ToSingle was causing a bit error (on the bit marked X of 0b.X......)
 	//Example: 02-81-AB-FF -> 02-81-EB-FF (A switching to E)
-	//Example: 47-92-AA-7F -> 47-92-AA-7F
 	//Using the FieldOffset trick seems to fix it
 	[StructLayout(LayoutKind.Explicit)]
 	struct FloatAndInt
