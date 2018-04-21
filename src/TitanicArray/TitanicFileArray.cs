@@ -61,7 +61,7 @@ namespace HugeStructures.TitanicArray
 				if (store != null) {
 					store.Dispose();
 				}
-				if (!config.KeepFile) {
+				if (config.IsTemporary) {
 					RemoveFile(config.BackingStoreFileName);
 				}
 			}

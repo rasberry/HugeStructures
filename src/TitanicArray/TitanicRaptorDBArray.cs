@@ -51,7 +51,7 @@ namespace HugeStructures.TitanicArray
 			{
 				rdb.Dispose();
 			}
-			if (!config.KeepFile) {
+			if (config.IsTemporary) {
 				RemoveFile(config.BackingStoreFileName);
 			}
 		}

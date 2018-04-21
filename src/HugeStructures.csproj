@@ -61,6 +61,7 @@
     <Compile Include="TitanicMap\ITitanicMap.cs" />
     <Compile Include="TitanicMap\TitanicFileMap.cs" />
     <Compile Include="TitanicMap\TitanicMapConfig.cs" />
+    <Compile Include="TitanicMap\TitanicRaptorDBMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

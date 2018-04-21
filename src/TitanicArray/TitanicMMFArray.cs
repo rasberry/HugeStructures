@@ -79,7 +79,7 @@ namespace HugeStructures.TitanicArray
 				mmva.Dispose();
 				mmf.Dispose();
 			}
-			if (!config.KeepFile) {
+			if (config.IsTemporary) {
 				RemoveFile(config.BackingStoreFileName);
 			}
 		}

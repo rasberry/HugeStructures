@@ -33,4 +33,18 @@ namespace HugeStructures
 			return mem.ToArray();
 		}
 	}
+
+	public interface IDataKeyHash<T>
+	{
+		long GetKeyHash(T item);
+	}
+
+	public class DefaultDataKeyHash<T> : IDataKeyHash<T>
+	{
+		public long GetKeyHash(T item)
+		{
+			var eq = EqualityComparer<T>.Default;
+			return eq.GetHashCode(item);
+		}
+	}
 }

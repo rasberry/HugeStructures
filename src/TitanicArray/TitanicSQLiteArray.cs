@@ -123,7 +123,7 @@ namespace HugeStructures.TitanicArray
 			{
 				sqConnection.Dispose();
 			}
-			if (!config.KeepFile) {
+			if (config.IsTemporary) {
 				RemoveFile(config.BackingStoreFileName);
 			}
 		}

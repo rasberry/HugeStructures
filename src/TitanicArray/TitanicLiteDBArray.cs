@@ -62,7 +62,7 @@ namespace HugeStructures.TitanicArray
 			if (disposing) {
 				db.Dispose();
 
-				if (!config.KeepFile) {
+				if (config.IsTemporary) {
 					RemoveFile(config.BackingStoreFileName);
 				}
 			}
