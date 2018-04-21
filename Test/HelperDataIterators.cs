@@ -83,7 +83,7 @@ namespace HugeStructures.Test
 				return true;
 			} else {
 				Debug.WriteLine("dr Didn't match\t"+a+"\t"+b);
-				return true;
+				return false;
 			}
 		}
 		Random rnd = new Random(0);

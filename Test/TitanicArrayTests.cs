@@ -2,8 +2,8 @@
 //#define EnableTitanicSQLiteArray
 //#define EnableTitanicLiteDBArray
 //#define EnableTitanicMMFArrayByte
-//#define EnableTitanicMMFArrayDouble
-//#define EnableTitanicRaptorDBArrayDouble
+#define EnableTitanicMMFArrayDouble
+#define EnableTitanicRaptorDBArrayDouble
 #define EnableTitanicIMArrayDouble
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
