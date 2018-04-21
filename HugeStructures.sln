@@ -8,10 +8,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HugeStructures.Test", "Test\HugeStructures.Test.csproj", "{BEC146DB-197D-4FE9-BF63-C5A9345C99E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FEB50E79-FD99-473A-A96E-7EC7F675F419}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptorDB", "src\RaptorDB\RaptorDB.csproj", "{45F6BE30-989A-4749-B6A0-69099C8661F4}"
 EndProject
