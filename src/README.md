@@ -24,12 +24,19 @@ This array is backed by a [LiteDB](http://www.litedb.org/) database.
 ##TitanicRaptorDBArray
 This array is backed by a [RaptorDb](https://www.codeproject.com/Articles/316816/RaptorDB-The-Key-Value-Store-V2) database.
 
+##TitanicIMArray
+This array is backed by [Magick.NET](https://github.com/dlemstra/Magick.NET)
+<br/>Note: TitanicIMArray sometimes has a problem converting data to float values (the internal storage type). So this array might be unreliable.
+
 ## Performance
 Testing on my machine using 2^20 doubles (4MiB of data) results in these times:
 
 * TitanicMMFArray
   * Random Sequence: 3s
   * Linear Sequence: 2s
+* TitanicIMArray
+  * Random Sequence: 10s
+  * Linear Sequence: 9s
 * TitanicRaptorDBArray
   * Random Sequence: 13s
   * Linear Sequence: 12s

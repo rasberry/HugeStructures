@@ -1,4 +1,4 @@
-﻿#define UseBitErrorWorkAround
+﻿// #define UseBitErrorWorkAround
 
 using ImageMagick;
 using System;

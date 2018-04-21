@@ -182,7 +182,7 @@ namespace HugeStructures.Test
 	#endif
 
 	#if EnableTitanicIMArrayDouble
-	//[TestClass]
+	[TestClass]
 	public class TitanicIMArrayDouble : TestAdapter<double>
 	{
 		public override ITitanicArray<double> CreateArray(ITitanicArrayConfig<double> c = null)
