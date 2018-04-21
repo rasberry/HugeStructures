@@ -23,12 +23,16 @@ namespace HugeStructures.Test
 	{
 		public double Deserialize(byte[] bytes)
 		{
-			return BitConverter.ToDouble(bytes,0);
+			double d = BitConverter.ToDouble(bytes,0);
+			Console.WriteLine("des "+BitConverter.ToString(bytes,0)+"\t"+d);
+			return d;
 		}
 
 		public byte[] Serialize(double item)
 		{
-			return BitConverter.GetBytes(item);
+			byte[] b = BitConverter.GetBytes(item);
+			Console.WriteLine("ser "+BitConverter.ToString(b,0)+"\t"+item);
+			return b;
 		}
 	}
 }

@@ -2,8 +2,9 @@
 //#define EnableTitanicSQLiteArray
 //#define EnableTitanicLiteDBArray
 //#define EnableTitanicMMFArrayByte
-#define EnableTitanicMMFArrayDouble
-#define EnableTitanicRaptorDBArrayDouble
+//#define EnableTitanicMMFArrayDouble
+//#define EnableTitanicRaptorDBArrayDouble
+#define EnableTitanicIMArrayDouble
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -173,6 +174,33 @@ namespace HugeStructures.Test
 	}
 	[TestClass]
 	public class TitanicRaptorDBArrayRandom : TitanicRaptorDBArrayTests
+	{
+		public override IDataIterator<double> CreateIterator() {
+			return new DoubleRandomIterator();
+		}
+	}
+	#endif
+
+	#if EnableTitanicIMArrayDouble
+	//[TestClass]
+	public class TitanicIMArrayDouble : TestAdapter<double>
+	{
+		public override ITitanicArray<double> CreateArray(ITitanicArrayConfig<double> c = null)
+		{
+			return c == null
+				? new TitanicIMArray<double>()
+				: new TitanicIMArray<double>(c)
+			;
+		}
+		public override IDataIterator<double> CreateIterator() {
+			return new DoubleDataIterator();
+		}
+		public override IDataSerializer<double> CreateSerializer() {
+			return new CustomDoubleSerializer();
+		}
+	}
+	[TestClass]
+	public class TitanicIMArrayRandom : TitanicIMArrayDouble
 	{
 		public override IDataIterator<double> CreateIterator() {
 			return new DoubleRandomIterator();

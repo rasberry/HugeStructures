@@ -14,6 +14,7 @@ namespace HugeStructures.Test
 		public abstract IDataSerializer<T> CreateSerializer();
 		public abstract IDataIterator<T> CreateIterator();
 
+		#if false
 		[TestMethod]
 		public void DefaultSerializer()
 		{
@@ -45,6 +46,7 @@ namespace HugeStructures.Test
 				TitanicArrayHelpers.ReadWriteRandom(arr,CreateIterator());
 			}
 		}
+		#endif
 
 		[TestMethod]
 		public void TimingTest()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,12 @@ namespace HugeStructures.Test
 			return _curr++;
 		}
 		public bool AreEqual(byte a, byte b) {
-			return a == b;
+			if (a == b) {
+				return true;
+			} else {
+				Debug.WriteLine("bd Didn't match\t"+a+"\t"+b);
+				return false;
+			}
 		}
 		byte _curr = 0;
 	}
@@ -35,7 +41,12 @@ namespace HugeStructures.Test
 			return (byte)(rnd.Next() % 255);
 		}
 		public bool AreEqual(byte a, byte b) {
-			return a == b;
+			if (a == b) {
+				return true;
+			} else {
+				Debug.WriteLine("br Didn't match\t"+a+"\t"+b);
+				return false;
+			}
 		}
 		Random rnd = new Random(0);
 	}
@@ -49,7 +60,12 @@ namespace HugeStructures.Test
 			return BitConverter.Int64BitsToDouble(_curr++);
 		}
 		public bool AreEqual(double a, double b) {
-			return a == b;
+			if (a == b) {
+				return true;
+			} else {
+				Debug.WriteLine("dd Didn't match\t"+a+"\t"+b);
+				return false;
+			}
 		}
 		long _curr = 0;
 	}
@@ -63,7 +79,12 @@ namespace HugeStructures.Test
 			return rnd.NextDouble();
 		}
 		public bool AreEqual(double a, double b) {
-			return a == b;
+			if (a == b) {
+				return true;
+			} else {
+				Debug.WriteLine("dr Didn't match\t"+a+"\t"+b);
+				return true;
+			}
 		}
 		Random rnd = new Random(0);
 	}

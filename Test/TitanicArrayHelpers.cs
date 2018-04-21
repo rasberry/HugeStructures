@@ -72,7 +72,7 @@ namespace HugeStructures.Test
 		{
 			var c = new TitanicArrayConfig<T> {
 				DataSerializer = ser,
-				Capacity = 1024 * 1024 * 1,
+				Capacity = 1024 * 16 * 1,
 				BackingStoreFileName = GetLocalTempFileName(),
 			};
 			return c;
