@@ -24,14 +24,14 @@ namespace HugeStructures.Test
 		public double Deserialize(byte[] bytes)
 		{
 			double d = BitConverter.ToDouble(bytes,0);
-			Console.WriteLine("des "+BitConverter.ToString(bytes,0)+"\t"+d);
+			//Console.WriteLine("des "+BitConverter.ToString(bytes,0)+"\t"+d);
 			return d;
 		}
 
 		public byte[] Serialize(double item)
 		{
 			byte[] b = BitConverter.GetBytes(item);
-			Console.WriteLine("ser "+BitConverter.ToString(b,0)+"\t"+item);
+			//Console.WriteLine("ser "+BitConverter.ToString(b,0)+"\t"+item);
 			return b;
 		}
 	}

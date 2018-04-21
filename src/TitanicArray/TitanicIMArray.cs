@@ -1,4 +1,6 @@
-﻿using ImageMagick;
+﻿#define UseBitErrorWorkAround
+
+using ImageMagick;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,9 +52,14 @@ namespace HugeStructures.TitanicArray
 						nextPixel = false;
 					}
 					if (nextFloat) {
+						#if UseBitErrorWorkAround
+						var fi = new FloatAndInt { Float = pixelData[indexFloat] };
+						floatData = fi.GetBytes();
+						nextFloat = false;
+						#else
 						float fc = pixelData[indexFloat];
 						floatData = BitConverter.GetBytes(fc);
-						nextFloat = false;
+						#endif
 					}
 					
 					data[indexData] = floatData[currFloatByte];
@@ -96,8 +103,13 @@ namespace HugeStructures.TitanicArray
 						nextPixel = false;
 					}
 					if (nextFloat) {
+						#if UseBitErrorWorkAround
+						var fi = new FloatAndInt { Float = pixelData[indexFloat] };
+						floatData = fi.GetBytes();
+						#else
 						float fc = pixelData[indexFloat];
 						floatData = BitConverter.GetBytes(fc);
+						#endif
 						nextFloat = false;
 					}
 					
@@ -107,10 +119,17 @@ namespace HugeStructures.TitanicArray
 					indexData++;
 
 					if (currFloatByte >= bytesPerFloat || isLast) {
-						Debug.Write("\tBF "+BitConverter.ToString(floatData,0));
+						//Debug.Write("\tBF "+BitConverter.ToString(floatData,0));
+						#if UseBitErrorWorkAround
+						var fi = new FloatAndInt();
+						fi.SetBytes(floatData);
+						pixelData[indexFloat] = fi.Float;
+						#else
 						float newFloat = BitConverter.ToSingle(floatData,0);
-						Debug.WriteLine("\tAF "+BitConverter.ToString(BitConverter.GetBytes(newFloat),0));
 						pixelData[indexFloat] = newFloat;
+						#endif
+						//Debug.WriteLine("\tAF "+BitConverter.ToString(BitConverter.GetBytes(newFloat),0));
+						//Debug.WriteLine(fi.Float != newFloat ? " !!!!!" : "");
 						indexFloat++;
 						currFloatByte = 0;
 						nextFloat = true;
@@ -182,12 +201,12 @@ namespace HugeStructures.TitanicArray
 			int y = (int)(offset / width);
 			int x = (int)(offset % width);
 			float[] pixel = p.GetArea(x,y,1,1);
-			Debug.WriteLine("get "+offset+"\t["+x+","+y+"]"
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[0]),0)
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[1]),0)
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[2]),0)
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[3]),0)
-			);
+			//Debug.WriteLine("get "+offset+"\t["+x+","+y+"]"
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[0]),0)
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[1]),0)
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[2]),0)
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[3]),0)
+			//);
 			return pixel;
 		}
 
@@ -196,30 +215,12 @@ namespace HugeStructures.TitanicArray
 			int y = (int)(offset / width);
 			int x = (int)(offset % width);
 			p.SetArea(x,y,1,1,pixel);
-			Debug.WriteLine("set "+offset+"\t["+x+","+y+"]"
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[0]),0)
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[1]),0)
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[2]),0)
-				+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[3]),0)
-			);
-		}
-
-		[StructLayout(LayoutKind.Explicit)]
-		struct FloatAndInt
-		{
-			[FieldOffset(0)]
-			public float Float;
-			[FieldOffset(0)]
-			public int Int;
-
-			public byte[] GetBytes()
-			{
-				return BitConverter.GetBytes(Int);
-			}
-			public void SetBytes(byte[] data)
-			{
-				Int = BitConverter.ToInt32(data,0);
-			}
+			//Debug.WriteLine("set "+offset+"\t["+x+","+y+"]"
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[0]),0)
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[1]),0)
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[2]),0)
+			//	+"\t"+BitConverter.ToString(BitConverter.GetBytes(pixel[3]),0)
+			//);
 		}
 
 		ITitanicArrayConfig<T> config;
@@ -236,4 +237,45 @@ namespace HugeStructures.TitanicArray
 		const int bytesPerPixel = bytesPerFloat * floatsPerPixel;
 
 	}
+
+	#if UseBitErrorWorkAround
+	//BitConverter.ToSingle was causing a bit error (on the bit marked X of 0b.X......)
+	//Example: 02-81-AB-FF -> 02-81-EB-FF (A switching to E)
+	//Example: 47-92-AA-7F -> 47-92-AA-7F
+	//Using the FieldOffset trick seems to fix it
+	[StructLayout(LayoutKind.Explicit)]
+	struct FloatAndInt
+	{
+		public FloatAndInt(float f)
+		{
+			Int = 0;
+			Float = f;
+		}
+		public FloatAndInt(int i)
+		{
+			Float = 0;
+			Int = i;
+		}
+		public FloatAndInt(byte[] data)
+		{
+			Float = 0;
+			Int = 0;
+			SetBytes(data);
+		}
+
+		[FieldOffset(0)]
+		public float Float;
+		[FieldOffset(0)]
+		public int Int;
+
+		public byte[] GetBytes()
+		{
+			return BitConverter.GetBytes(Int);
+		}
+		public void SetBytes(byte[] data)
+		{
+			Int = BitConverter.ToInt32(data,0);
+		}
+	}
+	#endif
 }
