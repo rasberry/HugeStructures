@@ -37,17 +37,21 @@ namespace HugeStructures.TitanicArray
 			}
 			set {
 				KeyValuePair<long,T> evicted;
-				if (cache.AddOrUpdate(index,value,out evicted))
-				{
-					byte[] buff = config.DataSerializer.Serialize(evicted.Value);
-					store.Seek(evicted.Key * itemSize,SeekOrigin.Begin);
-					store.Write(buff,0,itemSize);
+				if (cache.AddOrUpdate(index,value,out evicted)) {
+					StoreItem(evicted);
 				}
 			}
 		}
 
+		void StoreItem(KeyValuePair<long, T> item)
+		{
+			byte[] buff = config.DataSerializer.Serialize(item.Value);
+			store.Seek(item.Key * itemSize, SeekOrigin.Begin);
+			store.Write(buff, 0, itemSize);
+		}
+
 		public long Length { get {
-			return store.Length / itemSize;
+			return config.Capacity;
 		}}
 
 		public void Dispose()
@@ -58,6 +62,9 @@ namespace HugeStructures.TitanicArray
 		protected virtual void Dispose(bool disposing)
 		{
 			if (disposing) {
+				if (!config.IsTemporary) {
+					DrainLRUCache();
+				}
 				if (store != null) {
 					store.Dispose();
 				}
@@ -85,6 +92,13 @@ namespace HugeStructures.TitanicArray
 			long len = config.Capacity * itemSize;
 			for(long i=0; i<len; i++) {
 				store.WriteByte(0);
+			}
+		}
+
+		void DrainLRUCache()
+		{
+			foreach(var item in cache) {
+				StoreItem(item);
 			}
 		}
 

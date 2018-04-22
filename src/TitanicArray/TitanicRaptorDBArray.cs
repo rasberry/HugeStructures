@@ -19,16 +19,17 @@ namespace HugeStructures.TitanicArray
 		{
 			this.config = config;
 			TSize = GetSizeInBytes(config.DataSerializer);
-			buff = new byte[TSize];
 			rdb = RaptorDB<long>.Open(config.BackingStoreFileName,false);
 		}
 
 		public T this[long index] {
 			get {
-				buff.Initialize();
-				rdb.Get(index,out buff);
-				T data = config.DataSerializer.Deserialize(buff);
-				return data;
+				if (rdb.Get(index,out byte[] buff)) {
+					T data = config.DataSerializer.Deserialize(buff);
+					return data;
+				} else {
+					return default(T);
+				}
 			}
 			set {
 				byte[] data = config.DataSerializer.Serialize(value);

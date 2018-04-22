@@ -78,13 +78,14 @@ namespace HugeStructures
 			return isMore;
 		}
 
+		//returns true if something was evicted
 		public bool AddOrUpdate(K key, V val, out KeyValuePair<K,V> evicted)
 		{
 			LinkedListNode<LRUCacheItem<K, V>> node;
 			bool isCached = false;
 			if (isCached = cacheMap.TryGetValue(key, out node))
 			{
-				node.Value.value = val;
+				node.Value = new LRUCacheItem<K, V>(node.Value.key,val);
 			}
 
 			if (!isCached)
@@ -111,7 +112,7 @@ namespace HugeStructures
 		}
 	}
 
-	class LRUCacheItem<K,V>
+	struct LRUCacheItem<K,V>
 	{
 		public LRUCacheItem(K k, V v)
 		{

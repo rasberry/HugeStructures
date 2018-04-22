@@ -1,10 +1,10 @@
-﻿//#define EnableTitanicFileArray
+﻿#define EnableTitanicFileArray
 //#define EnableTitanicSQLiteArray
 //#define EnableTitanicLiteDBArray
 //#define EnableTitanicMMFArrayByte
 #define EnableTitanicMMFArrayDouble
-#define EnableTitanicRaptorDBArrayDouble
-#define EnableTitanicIMArrayDouble
+// #define EnableTitanicRaptorDBArrayDouble
+// #define EnableTitanicIMArrayDouble
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

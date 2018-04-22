@@ -74,6 +74,7 @@ namespace HugeStructures.Test
 				DataSerializer = ser,
 				Capacity = 1024 * 1024 * 1,
 				BackingStoreFileName = GetLocalTempFileName(),
+				IsTemporary = true
 			};
 			return c;
 		}
