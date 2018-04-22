@@ -75,7 +75,6 @@ namespace HugeStructures.TitanicArray
 			return data.Length;
 		}
 
-		byte[] buff;
 		int TSize;
 		ITitanicArrayConfig<T> config;
 		RaptorDB<long> rdb;

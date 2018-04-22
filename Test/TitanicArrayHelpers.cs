@@ -112,8 +112,8 @@ namespace HugeStructures.Test
 		public static string GetLocalTempFileName()
 		{
 			string name = Guid.NewGuid().ToString("n") + rnd.Next();
-			//return Path.Combine(Environment.CurrentDirectory,name);
-			return Path.Combine("c:\\temp",name);
+			return Path.Combine(Environment.CurrentDirectory,name);
+			//return Path.Combine("c:\\temp",name);
 		}
 	}
 }

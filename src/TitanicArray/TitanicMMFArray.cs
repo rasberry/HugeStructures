@@ -27,6 +27,13 @@ namespace HugeStructures.TitanicArray
 				FileAccess.ReadWrite,
 				FileShare.Read
 			);
+			
+			#if MONO
+			for(long b=0; b<config.Capacity * TSize; b++) {
+				stream.WriteByte(0);
+			}
+			stream.Seek(0,SeekOrigin.Begin);
+			#endif
 
 			mmf = MemoryMappedFile.CreateFromFile(
 				stream,

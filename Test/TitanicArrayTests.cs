@@ -1,4 +1,4 @@
-﻿#define EnableTitanicFileArray
+﻿// #define EnableTitanicFileArray
 //#define EnableTitanicSQLiteArray
 //#define EnableTitanicLiteDBArray
 //#define EnableTitanicMMFArrayByte
