@@ -21,10 +21,10 @@ This array is backed by a [SQLite](https://sqlite.org/) database.
 ## TitanicLiteDBArray
 This array is backed by a [LiteDB](http://www.litedb.org/) database.
 
-##TitanicRaptorDBArray
+## TitanicRaptorDBArray
 This array is backed by a [RaptorDb](https://www.codeproject.com/Articles/316816/RaptorDB-The-Key-Value-Store-V2) database.
 
-##TitanicIMArray
+## TitanicIMArray
 This array is backed by [Magick.NET](https://github.com/dlemstra/Magick.NET)
 <br/>Note: TitanicIMArray sometimes has a problem converting data to float values (the internal storage type). So this array might be unreliable.
 
