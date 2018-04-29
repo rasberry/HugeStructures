@@ -12,6 +12,8 @@ namespace HugeStructures.Test
 {
 	public static class TitanicArrayHelpers
 	{
+		const ulong lfsrStart = 1301L;
+
 		public static void ReadWriteTest<T>(ITitanicArray<T> arr, IDataIterator<T> iter)
 		{
 			long len = arr.Length;
@@ -28,20 +30,14 @@ namespace HugeStructures.Test
 		static void WriteRandom<T>(ITitanicArray<T> arr, IDataIterator<T> iter)
 		{
 			long len = arr.Length;
-			var seq = LinearFeedbackShiftRegister.SequenceLength(1L,len).GetEnumerator();
+			var seq = LinearFeedbackShiftRegister.SequenceLength(lfsrStart,(ulong)len).GetEnumerator();
 
 			iter.Reset();
 			for(long i=0; i<len; i++) {
-				long x;
-				do {
-					x = (long)seq.Current;
-					//note: MoveNext() must come after Current since LFSR sequence length is 2^n-1
-					// so we need to produce a 0 as the first element to make it 2^n
-					seq.MoveNext();
-				} while(x >= len); //skip numbers above the length since sequencelength rounds up
+				seq.MoveNext();
+				long x = (long)seq.Current;
 				T next = iter.GetNext();
 				arr[x] = next;
-				//Debug.WriteLine(x+" = "+next);
 			}
 		}
 
@@ -54,16 +50,12 @@ namespace HugeStructures.Test
 		static void ReadAndTestRandom<T>(ITitanicArray<T> arr, IDataIterator<T> iter)
 		{
 			long len = arr.Length;
-			var seq = LinearFeedbackShiftRegister.SequenceLength(1L,len).GetEnumerator();
+			var seq = LinearFeedbackShiftRegister.SequenceLength(lfsrStart,(ulong)len).GetEnumerator();
 			iter.Reset();
 			for(long i=0; i<len; i++) {
-				long x;
-				do {
-					x = (long)seq.Current;
-					seq.MoveNext();
-				} while(x >= len);
+				seq.MoveNext();
+				long x = (long)seq.Current;
 				T next = iter.GetNext();
-				//Debug.WriteLine(x+" = "+next);
 				Assert.IsTrue(iter.AreEqual(arr[x],next));
 			}
 		}
@@ -113,7 +105,6 @@ namespace HugeStructures.Test
 		{
 			string name = Guid.NewGuid().ToString("n") + rnd.Next();
 			return Path.Combine(Environment.CurrentDirectory,name);
-			//return Path.Combine("c:\\temp",name);
 		}
 	}
 }

@@ -32,7 +32,8 @@ namespace HugeStructures.Test
 		{
 			//LFSR sequences produce 2^n-1 items (skipping 0) so round up
 			int bits = (int)Math.Ceiling(Math.Log(length + 1,2.0));
-
+			//LFSR sequence length is 2^n-1 so we need to produce a '0' to make it 2^n
+			yield return 0;
 			do {
 				foreach(ulong x in SequenceBits(initialState,bits,false)) {
 					//skip numbers above the length since bitLength rounds up
@@ -40,8 +41,6 @@ namespace HugeStructures.Test
 						yield return x;
 					}
 				}
-				//LFSR sequence length is 2^n-1 so we need to produce a '0' to make it 2^n
-				yield return 0;
 			} while(repeat);
 		}
 
