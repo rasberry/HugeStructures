@@ -29,6 +29,7 @@ namespace HugeStructures.TitanicArray
 			);
 			
 			#if MONO
+			//TODO try stream.SetLength(config.Capacity * TSize);
 			for(long b=0; b<config.Capacity * TSize; b++) {
 				stream.WriteByte(0);
 			}

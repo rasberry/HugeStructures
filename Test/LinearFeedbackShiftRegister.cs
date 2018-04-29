@@ -28,11 +28,21 @@ namespace HugeStructures.Test
 		}
 
 		//sequance by total length (rounded up to nearest bit length)
-		public static IEnumerable<ulong> SequenceLength(ulong initialState, long length, bool repeat = false)
+		public static IEnumerable<ulong> SequenceLength(ulong initialState, ulong length, bool repeat = false)
 		{
 			//LFSR sequences produce 2^n-1 items (skipping 0) so round up
 			int bits = (int)Math.Ceiling(Math.Log(length + 1,2.0));
-			return SequenceBits(initialState,bits,repeat);
+
+			do {
+				foreach(ulong x in SequenceBits(initialState,bits,false)) {
+					//skip numbers above the length since bitLength rounds up
+					if (x < length) {
+						yield return x;
+					}
+				}
+				//LFSR sequence length is 2^n-1 so we need to produce a '0' to make it 2^n
+				yield return 0;
+			} while(repeat);
 		}
 
 		static ulong GetTapConstant(int bitLength)
