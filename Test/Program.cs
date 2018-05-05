@@ -27,7 +27,7 @@ namespace HugeStructures.Test
 
 		static void MainMain(string[] args)
 		{
-			Debug.Listeners.Add(new ConsoleTraceListener());
+			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 
 			var clist = Assembly.GetExecutingAssembly().GetTypes()
 				.Where(t => t.GetCustomAttributes(typeof(TestClassAttribute),false).Any())
