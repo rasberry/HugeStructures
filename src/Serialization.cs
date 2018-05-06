@@ -34,12 +34,12 @@ namespace HugeStructures
 		}
 	}
 
-	public interface IDataKeyHash<T>
+	public interface IDataKeySerializer<T> : IDataSerializer<T>
 	{
 		long GetKeyHash(T item);
 	}
 
-	public class DefaultDataKeyHash<T> : IDataKeyHash<T>
+	public class DefaultDataKeySerializer<T> : DefaultDataSerializer<T>, IDataKeySerializer<T>
 	{
 		public long GetKeyHash(T item)
 		{
