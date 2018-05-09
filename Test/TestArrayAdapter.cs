@@ -8,7 +8,7 @@ using HugeStructures.TitanicArray;
 
 namespace HugeStructures.Test
 {
-	public abstract class TestAdapter<T>
+	public abstract class TestArrayAdapter<T>
 	{
 		public abstract ITitanicArray<T> CreateArray(ITitanicArrayConfig<T> c = null);
 		public abstract IDataSerializer<T> CreateSerializer();
