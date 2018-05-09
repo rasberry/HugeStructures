@@ -8,14 +8,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HugeStructures.TitanicArray;
+using HugeStructures.TitanicMap;
 
 namespace HugeStructures.Test
 {
-	#if false
 	[TestClass]
-	public class TitanicFileArrayTests : TestMapAdapter<double>
+	public class TitanicZipMapTests : TestMapAdapter<long,double>
 	{
+		public override ITitanicMap<long,double> CreateMap()
+		{
+			return null;
+		}
+
+		#if false
 		public override ITitanicArray<double> CreateArray(ITitanicArrayConfig<double> c = null)
 		{
 			return c == null
@@ -29,6 +34,6 @@ namespace HugeStructures.Test
 		public override IDataSerializer<double> CreateSerializer() {
 			return new CustomDoubleSerializer();
 		}
+		#endif
 	}
-	#endif
 }
