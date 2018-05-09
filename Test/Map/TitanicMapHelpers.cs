@@ -16,7 +16,19 @@ namespace HugeStructures.Test
 
 		public static void ReadWriteTest<K,V>(ITitanicMap<K,V> map, IKVIterator<K,V> iter)
 		{
-			
+			iter.Reset();
+			long len = iter.Length;
+			while(0 < len--) {
+				var kv = iter.GetNext();
+				map[kv.Key] = kv.Value;
+			}
+			iter.Reset();
+			len = iter.Length;
+			while(0 < len--) {
+				var kv = iter.GetNext();
+				V val = map[kv.Key];
+				Assert.IsTrue(iter.AreEqual(kv.Key,kv.Value,kv.Key,val));
+			}
 		}
 	}
 }

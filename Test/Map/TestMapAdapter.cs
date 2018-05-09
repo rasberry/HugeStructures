@@ -11,13 +11,14 @@ namespace HugeStructures.Test
 {
 	public abstract class TestMapAdapter<K,V>
 	{
-		public abstract ITitanicMap<K,V> CreateMap();
+		public abstract ITitanicMap<K,V> CreateMap(ITitanicMapConfig<K,V> c = null);
+		public abstract IKVIterator<K,V> CreateIterator();
 
 		[TestMethod]
 		public void DefaultSerializer()
 		{
 			using(var map = CreateMap()) {
-				//TitanicArrayHelpers.ReadWriteTest(arr,CreateIterator());
+				TitanicMapHelpers.ReadWriteTest(map,CreateIterator());
 			}
 		}
 

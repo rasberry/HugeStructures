@@ -15,9 +15,15 @@ namespace HugeStructures.Test
 	[TestClass]
 	public class TitanicZipMapTests : TestMapAdapter<long,double>
 	{
-		public override ITitanicMap<long,double> CreateMap()
+		public override ITitanicMap<long,double> CreateMap(ITitanicMapConfig<long,double> c = null)
 		{
-			return null;
+			return c == null
+				? new TitanicZipMap<long,double>()
+				: new TitanicZipMap<long,double>(c)
+			;
+		}
+		public override IKVIterator<long,double> CreateIterator() {
+			return new LongDoubleIterator();
 		}
 
 		#if false
