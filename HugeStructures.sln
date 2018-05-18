@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HugeStructures", "src\HugeS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HugeStructures.Test", "Test\HugeStructures.Test.csproj", "{9D5AF97C-1C51-4871-A1BD-EA5E0BB2E6C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaptorDB", "RaptorDB\RaptorDB.csproj", "{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{9D5AF97C-1C51-4871-A1BD-EA5E0BB2E6C9}.Release|x64.Build.0 = Release|x64
 		{9D5AF97C-1C51-4871-A1BD-EA5E0BB2E6C9}.Release|x86.ActiveCfg = Release|x86
 		{9D5AF97C-1C51-4871-A1BD-EA5E0BB2E6C9}.Release|x86.Build.0 = Release|x86
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Debug|x64.ActiveCfg = Debug|x64
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Debug|x64.Build.0 = Debug|x64
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Debug|x86.ActiveCfg = Debug|x86
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Debug|x86.Build.0 = Debug|x86
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Release|x64.ActiveCfg = Release|x64
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Release|x64.Build.0 = Release|x64
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Release|x86.ActiveCfg = Release|x86
+		{D219FF4F-D166-4D54-910C-FE8FFA1A2E74}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal

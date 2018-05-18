@@ -13,15 +13,15 @@ using HugeStructures.TitanicMap;
 namespace HugeStructures.Test
 {
 	[TestClass]
-	public class TitanicZipMapTests : TestMapAdapter<long,double>
+	public class TitanicRaptorDBMapTests : TestMapAdapter<long,double>
 	{
 		const long IterLength = 1 * 1024;
 
 		public override ITitanicMap<long,double> CreateMap(ITitanicMapConfig<long,double> c = null)
 		{
 			return c == null
-				? new TitanicZipMap<long,double>()
-				: new TitanicZipMap<long,double>(c)
+				? new TitanicRaptorDBMap<long,double>()
+				: new TitanicRaptorDBMap<long,double>(c)
 			;
 		}
 		public override IKVIterator<long,double> CreateIterator(bool rnd = false) {
