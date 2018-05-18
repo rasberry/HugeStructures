@@ -15,6 +15,8 @@ namespace HugeStructures.Test
 	[TestClass]
 	public class TitanicZipMapTests : TestMapAdapter<long,double>
 	{
+		const long IterLength = 1 * 1024;
+
 		public override ITitanicMap<long,double> CreateMap(ITitanicMapConfig<long,double> c = null)
 		{
 			return c == null
@@ -22,24 +24,15 @@ namespace HugeStructures.Test
 				: new TitanicZipMap<long,double>(c)
 			;
 		}
-		public override IKVIterator<long,double> CreateIterator() {
-			return new LongDoubleIterator();
-		}
-
-		#if false
-		public override ITitanicArray<double> CreateArray(ITitanicArrayConfig<double> c = null)
-		{
-			return c == null
-				? new TitanicFileArray<double>()
-				: new TitanicFileArray<double>(c)
+		public override IKVIterator<long,double> CreateIterator(bool rnd = false) {
+			return rnd
+				? (IKVIterator<long,double>)new LongDoubleIteratorRandom(IterLength)
+				: (IKVIterator<long,double>)new LongDoubleIterator(IterLength)
 			;
 		}
-		public override IDataIterator<double> CreateIterator() {
-			return new DoubleDataIterator();
+		public override void CreateSerializers(out IDataKeySerializer<long> keyser, out IDataSerializer<double> valser) {
+			valser = new CustomDoubleSerializer();
+			keyser = new CustomLongSerializer();
 		}
-		public override IDataSerializer<double> CreateSerializer() {
-			return new CustomDoubleSerializer();
-		}
-		#endif
 	}
 }

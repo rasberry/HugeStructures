@@ -19,7 +19,7 @@ namespace HugeStructures.Test
 		}
 	}
 
-	public class CustomDoubleSerializer : IDataSerializer<double>
+	public class CustomDoubleSerializer : IDataKeySerializer<double>
 	{
 		public double Deserialize(byte[] bytes)
 		{
@@ -33,6 +33,31 @@ namespace HugeStructures.Test
 			byte[] b = BitConverter.GetBytes(item);
 			//Console.WriteLine("ser "+BitConverter.ToString(b,0)+"\t"+item);
 			return b;
+		}
+
+		public long GetKeyHash(double item)
+		{
+			return BitConverter.DoubleToInt64Bits(item);
+		}
+	}
+
+	public class CustomLongSerializer : IDataKeySerializer<long>
+	{
+		public long Deserialize(byte[] bytes)
+		{
+			long d = BitConverter.ToInt64(bytes,0);
+			return d;
+		}
+
+		public byte[] Serialize(long item)
+		{
+			byte[] b = BitConverter.GetBytes(item);
+			return b;
+		}
+
+		public long GetKeyHash(long item)
+		{
+			return item;
 		}
 	}
 }

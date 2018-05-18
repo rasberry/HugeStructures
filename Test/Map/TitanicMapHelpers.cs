@@ -12,7 +12,7 @@ namespace HugeStructures.Test
 {
 	public static class TitanicMapHelpers
 	{
-		const ulong lfsrStart = 1301L;
+		public const ulong lfsrStart = 1301L;
 
 		public static void ReadWriteTest<K,V>(ITitanicMap<K,V> map, IKVIterator<K,V> iter)
 		{
